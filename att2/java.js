@@ -5,7 +5,7 @@ const resultado = document.querySelector("#resultado");
 botao.addEventListener("click", function (){
 loading.style.display = "block";
 resultado.innerHTML = "";
-fetch("https://jsonplaceholder.typicode.com/users/1")
+fetch("https://jsonplaceholder.typicode.com/posts?_limit=5")
 .then(response => {
     loading.style.display = "none";
     if(!response.ok){
@@ -13,10 +13,18 @@ fetch("https://jsonplaceholder.typicode.com/users/1")
     }
     return response.json();
 })
-.then(usuario => {
-    resultado.innerHTML = ` 
-<h3>${usuario.name}</h3>
-<p>${usuario.email}</p>`;     
+.then(posts=>{
+    resultado.innerHTML = "<ul>";
+
+    const lista = resultado.querySelector("ul");
+
+    posts.forEach(post => {
+        lista.innerHTML += `
+        <li>
+        <strong>${post.title}</strong>
+        </li>`
+    });
+})   
     
 })
 .catch(erro => {
@@ -25,5 +33,3 @@ fetch("https://jsonplaceholder.typicode.com/users/1")
     (${erro.message})`;
     
     });
-
-});
